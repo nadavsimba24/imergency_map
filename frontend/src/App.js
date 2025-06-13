@@ -114,6 +114,8 @@ function App() {
   const [selectedResourceType, setSelectedResourceType] = useState('all');
   const [loading, setLoading] = useState(false);
   const [showIncidentForm, setShowIncidentForm] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   const [newIncident, setNewIncident] = useState({
     title: '',
     title_he: '',
