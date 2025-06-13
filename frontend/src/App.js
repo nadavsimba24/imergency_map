@@ -175,6 +175,11 @@ function App() {
       lat: 32.0853,
       lng: 34.7818
     });
+
+    // Show success notification
+    setNotificationMessage('האירוע דווח בהצלחה!');
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
   };
 
   const handleRefresh = () => {
