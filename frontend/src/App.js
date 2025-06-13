@@ -126,15 +126,29 @@ function App() {
 
   // Load incidents from localStorage on component mount
   useEffect(() => {
-    const storedIncidents = localStorage.getItem('emergency_incidents');
-    if (storedIncidents) {
-      setIncidents(JSON.parse(storedIncidents));
+    try {
+      const storedIncidents = localStorage.getItem('emergency_incidents');
+      if (storedIncidents && storedIncidents !== 'undefined') {
+        const parsedIncidents = JSON.parse(storedIncidents);
+        if (Array.isArray(parsedIncidents)) {
+          setIncidents(parsedIncidents);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading incidents from localStorage:', error);
+      localStorage.removeItem('emergency_incidents');
     }
   }, []);
 
   // Save incidents to localStorage whenever incidents change
   useEffect(() => {
-    localStorage.setItem('emergency_incidents', JSON.stringify(incidents));
+    try {
+      if (incidents.length > 0) {
+        localStorage.setItem('emergency_incidents', JSON.stringify(incidents));
+      }
+    } catch (error) {
+      console.error('Error saving incidents to localStorage:', error);
+    }
   }, [incidents]);
 
   const handleIncidentSubmit = (e) => {
