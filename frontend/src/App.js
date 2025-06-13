@@ -193,6 +193,11 @@ function App() {
         last_updated: new Date().toISOString()
       }));
       setResources(updatedResources);
+      
+      // Show refresh notification
+      setNotificationMessage('הנתונים עודכנו בהצלחה!');
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 2000);
     }, 1000);
   };
 
