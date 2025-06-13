@@ -1,38 +1,387 @@
-.App {
-    text-align: center;
+/* RTL Support */
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  direction: rtl;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Custom Marker Styles */
+.custom-marker {
+  background: transparent;
+  border: none;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.marker-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  position: relative;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
 }
 
-.App-link {
-    color: #61dafb;
+.marker-pin::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  left: 6px;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.marker-pin i {
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+/* Marker Colors */
+.marker-red {
+  background-color: #dc2626;
+}
+
+.marker-blue {
+  background-color: #2563eb;
+}
+
+.marker-green {
+  background-color: #16a34a;
+}
+
+.marker-orange {
+  background-color: #ea580c;
+}
+
+.marker-purple {
+  background-color: #9333ea;
+}
+
+.marker-navy {
+  background-color: #1e3a8a;
+}
+
+.marker-cyan {
+  background-color: #0891b2;
+}
+
+.marker-yellow {
+  background-color: #eab308;
+}
+
+/* Map Container */
+.map-container {
+  border-radius: 0 0 0.5rem 0.5rem;
+  overflow: hidden;
+}
+
+/* Leaflet RTL adjustments */
+.leaflet-container {
+  direction: ltr;
+}
+
+.leaflet-popup-content-wrapper {
+  direction: rtl;
+}
+
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .map-container {
+    height: 400px !important;
+  }
+  
+  .marker-pin {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  
+  .marker-pin::after {
+    width: 6px;
+    height: 6px;
+    top: 5px;
+    left: 5px;
+  }
+}
+
+/* Loading Animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Button Animations */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Priority Indicators */
+.priority-critical {
+  border-left: 4px solid #dc2626;
+}
+
+.priority-high {
+  border-left: 4px solid #f59e0b;
+}
+
+.priority-medium {
+  border-left: 4px solid #10b981;
+}
+
+.priority-low {
+  border-left: 4px solid #6b7280;
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Custom Input Styles for RTL */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  direction: rtl;
+  text-align: right;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Grid Responsive */
+@media (max-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .lg\\:grid-cols-8 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Status Indicators */
+.status-active {
+  color: #16a34a;
+}
+
+.status-inactive {
+  color: #dc2626;
+}
+
+.status-maintenance {
+  color: #ea580c;
+}
+
+/* Popup Styling */
+.leaflet-popup-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.leaflet-popup-content p {
+  margin-bottom: 0.25rem;
+}
+
+.leaflet-popup-content strong {
+  font-weight: 600;
+}
+
+/* Custom Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-critical {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.badge-high {
+  background-color: #fed7aa;
+  color: #9a3412;
+}
+
+.badge-medium {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+.badge-low {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  max-width: 300px;
+  z-index: 1000;
+  border-left: 4px solid #2563eb;
+}
+
+.notification-error {
+  border-left-color: #dc2626;
+}
+
+.notification-success {
+  border-left-color: #16a34a;
+}
+
+.notification-warning {
+  border-left-color: #ea580c;
+}
+
+/* Hebrew Font Optimization */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Heebo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Map Controls RTL */
+.leaflet-control-container .leaflet-routing-container {
+  direction: rtl;
+}
+
+.leaflet-control-container .leaflet-bar {
+  direction: ltr;
+}
+
+/* Custom Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #2196F3;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Emergency Alert Banner */
+.emergency-alert {
+  background: linear-gradient(90deg, #dc2626, #f59e0b);
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
