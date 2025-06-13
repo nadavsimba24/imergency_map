@@ -574,6 +574,16 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Notification Toast */}
+      {showNotification && (
+        <div className="toast bg-green-100 border-r-4 border-green-500">
+          <div className="flex items-center">
+            <i className="fas fa-check-circle text-green-500 ml-3"></i>
+            <p className="text-green-700 font-medium">{notificationMessage}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
