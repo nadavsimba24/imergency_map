@@ -42,13 +42,77 @@ const priorityColors = {
   low: '#6b7280'
 };
 
+// Static data - Emergency resources
+const emergencyResources = [
+  // Generators
+  { id: "gen-1", name: "Central Generator Unit", name_he: "יחידת גנרטור מרכזית", type: "generator", lat: 32.0853, lng: 34.7818, status: "active", capacity: 500, description: "Main backup power for downtown area", description_he: "כוח גיבוי ראשי לאזור המרכז", contact_phone: "03-1234567", priority: "high", last_updated: "2025-03-15T10:00:00" },
+  { id: "gen-2", name: "Hospital Backup Generator", name_he: "גנרטור גיבוי בית חולים", type: "generator", lat: 32.0808, lng: 34.7805, status: "active", capacity: 300, description: "Emergency power for medical facilities", description_he: "כוח חירום למתקנים רפואיים", contact_phone: "03-2345678", priority: "critical", last_updated: "2025-03-15T09:30:00" },
+  { id: "gen-3", name: "North Generator Station", name_he: "תחנת גנרטור צפון", type: "generator", lat: 32.7940, lng: 34.9896, status: "active", capacity: 400, description: "Northern district emergency power", description_he: "כוח חירום למחוז הצפוני", contact_phone: "04-3456789", priority: "high", last_updated: "2025-03-15T08:45:00" },
+  { id: "gen-4", name: "South Generator Hub", name_he: "מרכז גנרטור דרום", type: "generator", lat: 31.2518, lng: 34.7915, status: "maintenance", capacity: 250, description: "Southern region backup power", description_he: "כוח גיבוי לאזור הדרום", contact_phone: "08-4567890", priority: "medium", last_updated: "2025-03-15T07:20:00" },
+  { id: "gen-5", name: "Industrial Generator", name_he: "גנרטור תעשייתי", type: "generator", lat: 31.8927, lng: 34.8077, status: "active", capacity: 600, description: "Industrial zone emergency power", description_he: "כוח חירום לאזור התעשייה", contact_phone: "02-5678901", priority: "high", last_updated: "2025-03-15T06:15:00" },
+  
+  // Medical facilities
+  { id: "med-1", name: "Ichilov Hospital", name_he: "בית חולים איכילוב", type: "medical", lat: 32.0853, lng: 34.7818, status: "active", capacity: 500, description: "Major medical center", description_he: "מרכז רפואי מרכזי", contact_phone: "03-6974444", priority: "critical", last_updated: "2025-03-15T10:30:00" },
+  { id: "med-2", name: "Hadassah Medical Center", name_he: "המרכז הרפואי הדסה", type: "medical", lat: 31.7683, lng: 35.1370, status: "active", capacity: 800, description: "Leading medical facility", description_he: "מתקן רפואי מוביל", contact_phone: "02-6777111", priority: "critical", last_updated: "2025-03-15T10:15:00" },
+  { id: "med-3", name: "Rambam Health Care Campus", name_he: "קמפוס הבריאות רמב\"ם", type: "medical", lat: 32.7940, lng: 34.9896, status: "active", capacity: 600, description: "Northern medical hub", description_he: "מרכז רפואי צפוני", contact_phone: "04-7772888", priority: "critical", last_updated: "2025-03-15T09:45:00" },
+  { id: "med-4", name: "Soroka Medical Center", name_he: "המרכז הרפואי סורוקה", type: "medical", lat: 31.2518, lng: 34.7915, status: "active", capacity: 400, description: "Southern region medical center", description_he: "מרכז רפואי באזור הדרום", contact_phone: "08-6400111", priority: "critical", last_updated: "2025-03-15T09:00:00" },
+  { id: "med-5", name: "Emergency Clinic Center", name_he: "מרכז מרפאת חירום", type: "medical", lat: 32.0808, lng: 34.7805, status: "active", capacity: 100, description: "24/7 emergency clinic", description_he: "מרפאת חירום 24/7", contact_phone: "03-1112222", priority: "high", last_updated: "2025-03-15T08:30:00" },
+  
+  // Shelters
+  { id: "shelter-1", name: "Central Shelter Complex", name_he: "מתחם מקלט מרכזי", type: "shelter", lat: 32.0665, lng: 34.7748, status: "active", capacity: 1000, description: "Main emergency shelter", description_he: "מקלט חירום ראשי", contact_phone: "03-9998888", priority: "critical", last_updated: "2025-03-15T10:45:00" },
+  { id: "shelter-2", name: "School Emergency Shelter", name_he: "מקלט חירום בבית ספר", type: "shelter", lat: 32.0753, lng: 34.7888, status: "active", capacity: 300, description: "School converted to shelter", description_he: "בית ספר שהוסב למקלט", contact_phone: "03-7776666", priority: "high", last_updated: "2025-03-15T10:00:00" },
+  { id: "shelter-3", name: "Community Center Shelter", name_he: "מקלט במרכז קהילתי", type: "shelter", lat: 31.7683, lng: 35.1370, status: "active", capacity: 200, description: "Community emergency shelter", description_he: "מקלט חירום קהילתי", contact_phone: "02-5554444", priority: "medium", last_updated: "2025-03-15T09:15:00" },
+  { id: "shelter-4", name: "Underground Shelter", name_he: "מקלט תת קרקעי", type: "shelter", lat: 32.7940, lng: 34.9896, status: "active", capacity: 500, description: "Underground emergency shelter", description_he: "מקלט חירום תת קרקעי", contact_phone: "04-3332222", priority: "high", last_updated: "2025-03-15T08:00:00" },
+  { id: "shelter-5", name: "Sports Hall Shelter", name_he: "מקלט באולם ספורט", type: "shelter", lat: 31.2518, lng: 34.7915, status: "active", capacity: 400, description: "Sports facility emergency shelter", description_he: "מקלט חירום במתקן ספורט", contact_phone: "08-1119999", priority: "medium", last_updated: "2025-03-15T07:45:00" },
+  
+  // Fire stations
+  { id: "fire-1", name: "Central Fire Station", name_he: "תחנת כיבוי מרכזית", type: "fire_station", lat: 32.0853, lng: 34.7818, status: "active", capacity: 20, description: "Main fire and rescue station", description_he: "תחנת כיבוי והצלה ראשית", contact_phone: "102", priority: "critical", last_updated: "2025-03-15T11:00:00" },
+  { id: "fire-2", name: "North Fire Station", name_he: "תחנת כיבוי צפון", type: "fire_station", lat: 32.7940, lng: 34.9896, status: "active", capacity: 15, description: "Northern fire station", description_he: "תחנת כיבוי צפונית", contact_phone: "102", priority: "high", last_updated: "2025-03-15T10:30:00" },
+  { id: "fire-3", name: "South Fire Station", name_he: "תחנת כיבוי דרום", type: "fire_station", lat: 31.2518, lng: 34.7915, status: "active", capacity: 12, description: "Southern fire station", description_he: "תחנת כיבוי דרומית", contact_phone: "102", priority: "high", last_updated: "2025-03-15T09:45:00" },
+  
+  // Police stations
+  { id: "police-1", name: "Central Police Station", name_he: "תחנת משטרה מרכזית", type: "police", lat: 32.0808, lng: 34.7805, status: "active", capacity: 50, description: "Main police headquarters", description_he: "מטה המשטרה הראשי", contact_phone: "100", priority: "critical", last_updated: "2025-03-15T11:15:00" },
+  { id: "police-2", name: "District Police Station", name_he: "תחנת משטרה מחוזית", type: "police", lat: 31.7683, lng: 35.1370, status: "active", capacity: 30, description: "District police station", description_he: "תחנת משטרה מחוזית", contact_phone: "100", priority: "high", last_updated: "2025-03-15T10:50:00" },
+  
+  // Supply points
+  { id: "supply-1", name: "Emergency Supply Center", name_he: "מרכז אספקה לחירום", type: "supply", lat: 32.0753, lng: 34.7888, status: "active", capacity: 1000, description: "Food and medical supplies", description_he: "מזון ואספקה רפואית", contact_phone: "03-4445555", priority: "high", last_updated: "2025-03-15T10:20:00" },
+  { id: "supply-2", name: "Mobile Supply Unit", name_he: "יחידת אספקה נייד", type: "supply", lat: 31.8927, lng: 34.8077, status: "active", capacity: 500, description: "Mobile emergency supplies", description_he: "אספקת חירום נייד", contact_phone: "02-8889999", priority: "medium", last_updated: "2025-03-15T09:30:00" },
+  
+  // Water points
+  { id: "water-1", name: "Water Distribution Point", name_he: "נקודת חלוקת מים", type: "water", lat: 32.0665, lng: 34.7748, status: "active", capacity: 2000, description: "Emergency water distribution", description_he: "חלוקת מים לחירום", contact_phone: "03-6667777", priority: "critical", last_updated: "2025-03-15T11:30:00" },
+  { id: "water-2", name: "Northern Water Station", name_he: "תחנת מים צפונית", type: "water", lat: 32.7940, lng: 34.9896, status: "active", capacity: 1500, description: "Northern water distribution", description_he: "חלוקת מים צפונית", contact_phone: "04-2223333", priority: "high", last_updated: "2025-03-15T10:40:00" },
+  { id: "water-3", name: "Southern Water Hub", name_he: "מרכז מים דרומי", type: "water", lat: 31.2518, lng: 34.7915, status: "active", capacity: 1200, description: "Southern water distribution", description_he: "חלוקת מים דרומית", contact_phone: "08-3334444", priority: "high", last_updated: "2025-03-15T09:20:00" }
+];
+
+// Static data - Power outages
+const powerOutages = [
+  {
+    id: "outage-1",
+    area_name: "Downtown Tel Aviv",
+    area_name_he: "מרכז תל אביב",
+    coordinates: [[32.0853, 34.7818], [32.0753, 34.7818], [32.0753, 34.7918], [32.0853, 34.7918]],
+    estimated_restoration: "2025-03-15T18:00:00",
+    affected_population: 15000,
+    status: "active",
+    reported_at: "2025-03-15T12:00:00"
+  },
+  {
+    id: "outage-2",
+    area_name: "North Jerusalem",
+    area_name_he: "ירושלים צפון",
+    coordinates: [[31.7783, 35.1270], [31.7683, 35.1270], [31.7683, 35.1470], [31.7783, 35.1470]],
+    estimated_restoration: "2025-03-15T20:00:00",
+    affected_population: 8000,
+    status: "active",
+    reported_at: "2025-03-15T11:30:00"
+  }
+];
+
 function App() {
-  const [resources, setResources] = useState([]);
+  const [resources, setResources] = useState(emergencyResources);
   const [incidents, setIncidents] = useState([]);
-  const [powerOutages, setPowerOutages] = useState([]);
-  const [statistics, setStatistics] = useState({});
   const [selectedResourceType, setSelectedResourceType] = useState('all');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showIncidentForm, setShowIncidentForm] = useState(false);
   const [newIncident, setNewIncident] = useState({
     title: '',
@@ -60,75 +124,55 @@ function App() {
     lng: 34.7818
   });
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
-
+  // Load incidents from localStorage on component mount
   useEffect(() => {
-    fetchAllData();
+    const storedIncidents = localStorage.getItem('emergency_incidents');
+    if (storedIncidents) {
+      setIncidents(JSON.parse(storedIncidents));
+    }
   }, []);
 
-  const fetchAllData = async () => {
-    try {
-      setLoading(true);
-      const [resourcesRes, incidentsRes, outagesRes, statsRes] = await Promise.all([
-        fetch(`${backendUrl}/api/resources`),
-        fetch(`${backendUrl}/api/incidents`),
-        fetch(`${backendUrl}/api/power-outages`),
-        fetch(`${backendUrl}/api/statistics`)
-      ]);
+  // Save incidents to localStorage whenever incidents change
+  useEffect(() => {
+    localStorage.setItem('emergency_incidents', JSON.stringify(incidents));
+  }, [incidents]);
 
-      if (resourcesRes.ok) {
-        const resourcesData = await resourcesRes.json();
-        setResources(resourcesData.resources || []);
-      }
+  const handleIncidentSubmit = (e) => {
+    e.preventDefault();
+    const newIncidentWithId = {
+      ...newIncident,
+      id: Date.now().toString(),
+      reported_at: new Date().toISOString(),
+      status: 'open',
+      priority: 'medium',
+      reported_by: 'anonymous'
+    };
 
-      if (incidentsRes.ok) {
-        const incidentsData = await incidentsRes.json();
-        setIncidents(incidentsData.incidents || []);
-      }
-
-      if (outagesRes.ok) {
-        const outagesData = await outagesRes.json();
-        setPowerOutages(outagesData.outages || []);
-      }
-
-      if (statsRes.ok) {
-        const statsData = await statsRes.json();
-        setStatistics(statsData);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
+    setIncidents(prev => [...prev, newIncidentWithId]);
+    setShowIncidentForm(false);
+    setNewIncident({
+      title: '',
+      title_he: '',
+      description: '',
+      description_he: '',
+      type: 'other',
+      lat: 32.0853,
+      lng: 34.7818
+    });
   };
 
-  const handleIncidentSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`${backendUrl}/api/incidents`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newIncident),
-      });
-
-      if (response.ok) {
-        setShowIncidentForm(false);
-        setNewIncident({
-          title: '',
-          title_he: '',
-          description: '',
-          description_he: '',
-          type: 'other',
-          lat: 32.0853,
-          lng: 34.7818
-        });
-        fetchAllData();
-      }
-    } catch (error) {
-      console.error('Error submitting incident:', error);
-    }
+  const handleRefresh = () => {
+    setLoading(true);
+    // Simulate refresh delay
+    setTimeout(() => {
+      setLoading(false);
+      // Update last_updated timestamps
+      const updatedResources = resources.map(resource => ({
+        ...resource,
+        last_updated: new Date().toISOString()
+      }));
+      setResources(updatedResources);
+    }, 1000);
   };
 
   const filteredResources = selectedResourceType === 'all' 
@@ -146,12 +190,20 @@ function App() {
     { value: 'water', label: 'מים', label_en: 'Water' }
   ];
 
+  // Calculate statistics
+  const statistics = {
+    total_resources: resources.length,
+    active_resources: resources.filter(r => r.status === 'active').length,
+    open_incidents: incidents.filter(i => i.status === 'open').length,
+    active_outages: powerOutages.filter(o => o.status === 'active').length
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">טוען נתונים...</p>
+          <p className="mt-4 text-gray-600">מעדכן נתונים...</p>
         </div>
       </div>
     );
@@ -170,16 +222,17 @@ function App() {
             <div className="flex items-center space-x-4 space-x-reverse">
               <button
                 onClick={() => setShowIncidentForm(true)}
-                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg flex items-center"
+                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg flex items-center transition-colors"
               >
                 <i className="fas fa-exclamation-triangle ml-2"></i>
                 דווח על אירוע
               </button>
               <button
-                onClick={fetchAllData}
-                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center"
+                onClick={handleRefresh}
+                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center transition-colors"
+                disabled={loading}
               >
-                <i className="fas fa-sync-alt ml-2"></i>
+                <i className={`fas fa-sync-alt ml-2 ${loading ? 'animate-spin' : ''}`}></i>
                 רענן
               </button>
             </div>
@@ -197,7 +250,7 @@ function App() {
               </div>
               <div className="mr-4">
                 <p className="text-sm text-gray-600">סה״כ משאבים</p>
-                <p className="text-2xl font-bold text-gray-900">{statistics.total_resources || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{statistics.total_resources}</p>
               </div>
             </div>
           </div>
@@ -209,7 +262,7 @@ function App() {
               </div>
               <div className="mr-4">
                 <p className="text-sm text-gray-600">משאבים פעילים</p>
-                <p className="text-2xl font-bold text-gray-900">{statistics.active_resources || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{statistics.active_resources}</p>
               </div>
             </div>
           </div>
@@ -221,7 +274,7 @@ function App() {
               </div>
               <div className="mr-4">
                 <p className="text-sm text-gray-600">אירועים פתוחים</p>
-                <p className="text-2xl font-bold text-gray-900">{statistics.open_incidents || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{statistics.open_incidents}</p>
               </div>
             </div>
           </div>
@@ -233,7 +286,7 @@ function App() {
               </div>
               <div className="mr-4">
                 <p className="text-sm text-gray-600">הפסקות חשמל</p>
-                <p className="text-2xl font-bold text-gray-900">{statistics.active_outages || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{statistics.active_outages}</p>
               </div>
             </div>
           </div>
@@ -479,14 +532,14 @@ function App() {
               <div className="flex space-x-3 space-x-reverse pt-4">
                 <button
                   type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex-1"
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex-1 transition-colors"
                 >
                   שלח דיווח
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowIncidentForm(false)}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md flex-1"
+                  className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md flex-1 transition-colors"
                 >
                   ביטול
                 </button>
